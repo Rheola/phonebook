@@ -2,6 +2,7 @@
 
 namespace models\forms;
 
+use core\Captcha;
 use core\forms\Form;
 
 class RegisterForm extends Form
@@ -9,6 +10,7 @@ class RegisterForm extends Form
 
     public $email;
     public $login;
+    public $captcha;
     public $password;
     public $passwordRepeat;
 
@@ -44,7 +46,7 @@ class RegisterForm extends Form
 
         }
 
-        if ($this->password != $this->passwordRepeat) {
+        if ($this->password !== $this->passwordRepeat) {
             $this->errors['password'][] = 'Пароли не совпадают';
 
             return false;
@@ -57,6 +59,14 @@ class RegisterForm extends Form
 
             return false;
 
+        }
+        $captcha = new Captcha();
+
+        if (!$captcha->validateCaptcha($this->captcha)) {
+
+            $this->errors['captcha'][] = 'Неверная капча';
+
+            return false;
         }
 
         return true;

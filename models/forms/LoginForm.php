@@ -2,6 +2,7 @@
 
 namespace models\forms;
 
+use core\Captcha;
 use core\forms\Form;
 use models\User;
 
@@ -10,6 +11,7 @@ class LoginForm extends Form
 
     public $email;
     public $password;
+    public $captcha;
 
 
     private $user;
@@ -43,6 +45,14 @@ class LoginForm extends Form
             return false;
         }
 
+        $captcha = new Captcha();
+
+        if (!$captcha->validateCaptcha($this->captcha)) {
+
+            $this->errors['captcha'][] = 'Неверная капча';
+
+            return false;
+        }
 
         return true;
     }
