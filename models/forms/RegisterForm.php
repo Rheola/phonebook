@@ -3,11 +3,9 @@
 namespace models\forms;
 
 use core\forms\Form;
-use core\forms\FormTrait;
 
 class RegisterForm extends Form
 {
-    use FormTrait;
 
     public $email;
     public $login;

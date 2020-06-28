@@ -3,12 +3,10 @@
 namespace models\forms;
 
 use core\forms\Form;
-use core\forms\FormTrait;
 use models\User;
 
 class LoginForm extends Form
 {
-    use FormTrait;
 
     public $email;
     public $password;

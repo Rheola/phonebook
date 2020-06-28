@@ -15,4 +15,40 @@ class Form
             }
         }
     }
+
+    public $errors = [];
+
+
+    /**
+     * @return bool
+     */
+    public function hasErrors()
+    {
+        return \count($this->errors) > 0;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function firstError()
+    {
+        if (!$this->hasErrors()) {
+            return null;
+        }
+
+        return array_shift($this->errors);
+    }
+
+    /**
+     *
+     */
+    public function printErrors()
+    {
+        if (!$this->hasErrors()) {
+            return;
+        }
+        $error = $this->firstError()[0];
+        echo "<p><b style='color: red'>$error</b></p>";
+    }
+
 }
