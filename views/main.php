@@ -17,7 +17,6 @@ use core\App;
     <meta name="generator" content="Jekyll v4.0.1">
     <title>Телефонная книга</title>
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/navbars/">
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.css" rel="stylesheet">
