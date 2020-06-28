@@ -12,6 +12,8 @@ class LoginForm extends Form
     public $password;
 
 
+    private $user;
+
     public function validate()
     {
         if (empty($this->email)) {
@@ -33,6 +35,7 @@ class LoginForm extends Form
 
             return false;
         }
+        $this->user = $user;
 
         if (empty($this->password)) {
             $this->errors['password'][] = 'Укажите пароль';
@@ -41,13 +44,20 @@ class LoginForm extends Form
         }
 
 
-        if (md5($this->password) !== $user->password) {
+        return true;
+    }
+
+    public function authenticate()
+    {
+        if (md5($this->password) !== $this->user->password) {
             $this->errors['password'][] = 'Неверный пароль';
 
             return false;
         }
 
+        $_SESSION['is_auth'] = true;
+        $_SESSION['user'] = $this->user;
+
         return true;
     }
-
 }
