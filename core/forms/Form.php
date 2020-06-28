@@ -4,45 +4,15 @@
 namespace core\forms;
 
 
-trait Form
+class Form
 {
-    public $errors = [];
 
-
-    /**
-     * @return bool
-     */
-    public function hasErrors()
+    public function load($postData)
     {
-        return \count($this->errors) > 0;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function firstError()
-    {
-        if (!$this->hasErrors()) {
-            return null;
+        foreach ($this as $field => $val) {
+            if (isset($postData[$field])) {
+                $this->$field = trim($postData[$field]);
+            }
         }
-
-        return $this->errors[0];
-    }
-
-    /**
-     *
-     */
-    public function printErrors()
-    {
-        if (!$this->hasErrors()) {
-            return;
-        }
-        $error = $this->firstError();
-        echo "<p><b style='color: red'>$error</b></p>";
-    }
-
-    public function load()
-    {
-        // todo
     }
 }
