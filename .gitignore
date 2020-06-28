@@ -2,4 +2,5 @@
 /docker/data
 /docker/log
 /bee
+/runtime
 /bootstrap-4.5.0-examples
