@@ -4,7 +4,7 @@
 namespace core\forms;
 
 
-class Form
+abstract class Form
 {
 
     public function load($postData)
@@ -51,4 +51,5 @@ class Form
         echo "<p><b style='color: red'>$error</b></p>";
     }
 
+    abstract public function validate();
 }
