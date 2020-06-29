@@ -11,6 +11,9 @@ use models\User;
 class UserController extends Controller
 {
 
+    /**
+     *
+     */
     public function actionLogin()
     {
         if (!App::$user->isGuest()) {
@@ -36,6 +39,9 @@ class UserController extends Controller
     }
 
 
+    /**
+     *
+     */
     public function actionRegister()
     {
         if (!App::$user->isGuest()) {
@@ -66,6 +72,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     *
+     */
     public function actionLogout()
     {
         if (App::$user->isGuest()) {
