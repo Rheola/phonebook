@@ -12,3 +12,16 @@ create table user
         unique (login)
 );
 
+create table phonebook.phone
+(
+    id int auto_increment
+        primary key,
+    user_id int not null,
+    phone varchar(12) not null,
+    first_name varchar(20) null,
+    last_name varchar(20) null,
+    email varchar(30) null,
+    file varchar(40) null
+)
+    charset=utf8;
+
