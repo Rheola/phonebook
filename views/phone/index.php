@@ -90,7 +90,9 @@
             <tr data-id="<?= $phone->id; ?>">
                 <td><?= $phone->last_name; ?></td>
                 <td><?= $phone->first_name; ?></td>
-                <td><?= $phone->phone; ?></td>
+                <td>
+                    <?= $phone->formattedPhone(); ?>
+                </td>
                 <td><?= $phone->email; ?></td>
                 <td>
                     <?php
@@ -102,7 +104,11 @@
                     ?>
                 </td>
                 <td>
-                    <div class="btn-group" aria-label="Basic example">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary btn-success view" data-id="<?= $phone->id; ?>"
+                                data-target="#viewModal">
+                            <i class="fas fa-eye"></i>
+                        </button>
                         <button type="button" class="btn btn-secondary btn-info edit" data-id="<?= $phone->id; ?>"
                                 data-target="#editModal">
                             <i class="fas fa-pen"></i>
@@ -185,6 +191,61 @@
 
                     <button class="btn btn-primary" type="submit" id="save" data-id="">Сохранить</button>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Просмотр контакта</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <table class="table table-striped">
+
+                    <tbody>
+                    <tr>
+                        <th scope="row">Телефон</th>
+                        <td id="phone-view"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Телефон в текстовом представлении</th>
+                        <td id="phone-text-view"></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Имя</th>
+                        <td id="first_name-view"></td>
+
+                    </tr>
+                    <tr>
+                        <th scope="row">Фамилия</th>
+                        <td id="last_name-view"></td>
+
+                    </tr>
+
+                    <tr>
+                        <th scope="row">Email</th>
+                        <td id="email-view"></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                <div class="col-sm-12 mb-4">
+
+                    <img id='file-view' src="/upload/min/" alt="" class="img-thumbnail">
+
+                </div>
+
             </div>
         </div>
     </div>

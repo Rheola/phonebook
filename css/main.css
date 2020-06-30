@@ -49,3 +49,8 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+.captcha-input {
+    background: #FFF url(/captcha) repeat-y left center;
+    padding-left: 100px;
+}

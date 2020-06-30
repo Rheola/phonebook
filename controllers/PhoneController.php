@@ -137,10 +137,12 @@ class PhoneController extends Controller
             return;
         }
 
+        $data = $phone->toArray();
+        $data['textPhone'] = $phone->phoneToText();
         echo json_encode(
             [
                 'success' => true,
-                'data' => $phone->toArray(),
+                'data' => $data,
             ]
         );
     }

@@ -149,6 +149,49 @@ $(function () {
         }
     );
 
+    $(document).on('click', '.view', function () {
+            const id = this.getAttribute('data-id');
+            $.ajax({
+                type: "GET",
+                url: "/phone/view/" + id,
+            })
+                .done(function (rawResponse) {
+                    const response = JSON.parse(rawResponse);
+
+                    if (response.success) {
+                        const contact = response.data;
+
+                        for (const [key, value] of Object.entries(contact)) {
+                            if (key == 'file') {
+                                continue;
+                            }
+                            console.log(value);
+                            $(`#${key}-view`).html(value);
+                        }
+                        if (contact.file != '') {
+                            $('#file-view').attr('src', '/upload/min/' + contact.file);
+                        }
+                        $('#phone-text-view').html( contact.textPhone);
+
+                        $('#viewModal').modal('show');
+
+                    } else {
+                        alert('Что-то пошло не так');
+                    }
+                })
+                .fail(function (data) {
+                    console.error('error');
+                    console.error(data);
+
+                    alert("error");
+                });
+
+            return false;
+            // what you want to happen when mouseover and mouseout
+            // occurs on elements that match '.dosomething'
+        }
+    );
+
     $(document).on('click', '#save', function () {
             const id = this.getAttribute('data-id');
 
