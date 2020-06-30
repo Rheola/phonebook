@@ -65,7 +65,7 @@ class PDOConnection
         $host = App::getInstance()->params['db']['host'];
         $db = App::getInstance()->params['db']['dbname'];
 
-        $dsn = sprintf('mysql:host=%s;dbname=%s;charset=utf8', $host, $db);
+        $dsn = sprintf('mysql:host=%s;dbname=%s;charset=UTF8', $host, $db);
 
         $user = App::getInstance()->params['db']['user'];
         $password = App::getInstance()->params['db']['password'];

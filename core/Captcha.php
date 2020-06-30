@@ -15,15 +15,15 @@ class Captcha
 
     public function setSession($key, $value)
     {
-        $_SESSION["$key"] = $value;
+        $_SESSION[(string)$key] = $value;
     }
 
     public function getSession($key)
     {
         @session_start();
-        $value = "";
-        if (!empty($key) && !empty($_SESSION["$key"])) {
-            $value = $_SESSION["$key"];
+        $value = '';
+        if (!empty($key) && !empty($_SESSION[(string)$key])) {
+            $value = $_SESSION[(string)$key];
         }
 
         return $value;
@@ -43,14 +43,14 @@ class Captcha
 
     public function renderCaptchaImage($imageData)
     {
-        header("Content-type: image/jpeg");
+        header('Content-type: image/jpeg');
         imagejpeg($imageData);
     }
 
     public function validateCaptcha($formData)
     {
         $isValid = false;
-        $capchaSessionData = $this->getSession("captcha_code");
+        $capchaSessionData = $this->getSession('captcha_code');
 
         if ($capchaSessionData == $formData) {
             $isValid = true;

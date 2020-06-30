@@ -72,6 +72,7 @@ class Route
                 return $controller->$action($params);
             }
         }
+        header("HTTP/1.0 404 Not Found");
         Controller::error404();
     }
 }
