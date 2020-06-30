@@ -17,56 +17,50 @@
 </nav>
 
 
-<form class="needs-validation" id="create-form" method="post">
+<form class="needs-validation" id="create-form">
     <div class="form-row">
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-4">
             <label for="phone">Телефон</label>
-            <input type="text" class="form-control" id="phone" name="PhoneForm[phone]" value="78002000000" required>
+            <input type="text" class="form-control" id="phone" name="PhoneForm[phone]" value="78002000000">
             <div class="valid-feedback">
                 Looks good!
             </div>
         </div>
 
-        <div class="col-md-6 mb-3">
+        <div class="col-md-4 mb-4">
+            <label for="last_name">Имя</label>
+            <input type="text" class="form-control" id="last_name" name="PhoneForm[last_name]" value="">
+            <div class="valid-feedback">
+                Looks good!
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
             <label for="first_name">Фамилия</label>
-            <input type="text" class="form-control" id="first_name" name="PhoneForm[first_name]" value="Фамилия"
-                   required>
+            <input type="text" class="form-control" id="first_name" name="PhoneForm[first_name]" value="">
             <div class="valid-feedback">
                 Looks good!
             </div>
         </div>
 
-        <div class="col-md-6 mb-3">
-            <label for="validationCustom02">Last name</label>
-            <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
-            <div class="valid-feedback">
-                Looks good!
-            </div>
-        </div>
+
     </div>
     <div class="form-row">
-        <div class="col-md-6 mb-3">
-            <label for="validationCustom03">City</label>
-            <input type="text" class="form-control" id="validationCustom03">
-            <div class="invalid-feedback">
-                Please provide a valid city.
+
+        <div class="col-md-6 mb-6">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="PhoneForm[email]" value="">
+            <div class="valid-feedback">
+                Looks good!
             </div>
-        </div>
-        <div class="col-md-3 mb-3">
-            <label for="validationCustom04">State</label>
-            <select class="custom-select" id="validationCustom04">
-                <option selected disabled value="">Choose...</option>
-                <option>...</option>
-            </select>
             <div class="invalid-feedback">
                 Please select a valid state.
             </div>
         </div>
-        <div class="col-md-3 mb-3">
-            <label for="validationCustom05">Zip</label>
-            <input type="text" class="form-control" id="validationCustom05">
-            <div class="invalid-feedback">
-                Please provide a valid zip.
+        <div class="col-md-6 mb-6">
+            <div class="form-group">
+                <label for="file">Аватар</label>
+                <input type="file" class="form-control-file" id="file" name="PhoneForm[file]">
             </div>
         </div>
     </div>
@@ -113,14 +107,16 @@
 
     foreach ($phones as $phone) {
         ?>
-        <tr>
+        <tr data-id="<?= $phone->id; ?>">
             <td><?= $phone->first_name; ?></td>
             <td><?= $phone->last_name; ?></td>
             <td><?= $phone->phone; ?></td>
             <td><?= $phone->email; ?></td>
             <td>
                 <div class="btn-group" aria-label="Basic example">
-                    <button type="button" class="btn btn-secondary btn-info edit" data-id="<?= $phone->id; ?>">
+                    <button type="button" class="btn btn-secondary btn-info edit" data-id="<?= $phone->id; ?>"
+                            data-toggle="modal" data-target="#editModal"
+                    >
                         <i class="fas fa-pen"></i>
                     </button>
                     <button type="button" class="btn btn-secondary  btn-danger delete" data-id="<?= $phone->id; ?>">
@@ -136,6 +132,27 @@
 </table>
 
 
+<!-- Modal -->
+<div class="modal fade" id="editModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+     role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Редактирование</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     'use strict';
     window.onload = function () {
@@ -145,21 +162,33 @@
         $('#create').click(function () {
 
 
-            const formData = $('#create-form').serialize();
+            // const formData = $('#create-form').serialize();
+            // const formData = new FormData();
+            // formData.append( 'file', $( '#file' )[0].files[0] );
+
+            const form = $('#create-form')[0];
+            console.log(form);
+
+            // Create an FormData object
+            const formData = new FormData(form);
+
+            // If you want to add an extra field for the FormData
+            formData.append("CustomField", "This is some extra data, testing");
             $.ajax({
                 type: "POST",
                 url: "/phone/create",
-                // dataType: "html",
+                enctype: 'multipart/form-data',
+                processData: false,  // Important!
+                contentType: false,
+                cache: false,
                 data: formData,
-
             })
                 .done(function (rawResponse) {
                     const response = JSON.parse(rawResponse);
                     if (response.success) {
                         const phone = response.data;
-                        console.log(phone);
                         $('tbody').prepend(`
-                    <tr>
+                    <tr data-id="${phone.id}">
                              <td>${phone.first_name}</td>
                             <td>${phone.last_name}</td>
                             <td>${phone.phone}</td>
@@ -176,7 +205,11 @@
                             </td>
                     </tr>
                     `
-                        )
+                        );
+                        $('#phone').val('');
+                        $('#first_name').val('');
+                        $('#last_name').val('');
+                        return false;
                     } else {
                         const errors = response.errors;
                         console.log(errors);
@@ -193,33 +226,35 @@
         });
 
 
-        $('.delete').click(function () {
+        $(document).on('click', '.delete', function () {
+                const id = this.getAttribute('data-id');
 
-
-            // const formData = $('#create-form').serialize();
-            const id = $(this).attr('data-id');
-
-            console.log(id);
-            $.ajax({
-                type: "POST",
-                url: "/phone/delete?id=" + id,
-                // dataType: "html",
-                // data: formData,
-
-            })
-                .done(function (rawResponse) {
-
-
+                $.ajax({
+                    type: "POST",
+                    url: "/phone/delete/" + id,
                 })
-                .fail(function (data) {
-                    console.log('error');
-                    console.log(data);
+                    .done(function (rawResponse) {
+                        const response = JSON.parse(rawResponse);
+                        if (response.success) {
+                            $(`tr[data-id=${id}]`).remove();
+                        } else {
+                            alert('Что-то пошло не так');
+                        }
 
-                    alert("error");
-                });
+                    })
+                    .fail(function (data) {
+                        console.log('error');
+                        console.log(data);
 
-            return false;
-        })
+                        alert("error");
+                    });
+
+                return false;
+                // what you want to happen when mouseover and mouseout
+                // occurs on elements that match '.dosomething'
+            }
+        );
+
 
     }
 </script>
