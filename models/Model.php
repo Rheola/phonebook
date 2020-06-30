@@ -37,8 +37,7 @@ abstract class Model
     private function findAttributes()
     {
 
-        $called = get_called_class();
-        $table = $called::tableName();
+        $table = $this->tableName();
 
         $sql = sprintf('SHOW COLUMNS FROM %s', $table);
 
@@ -206,7 +205,6 @@ abstract class Model
         if ($pdo->errorCode() != 0) {
             // todo
         }
-
     }
 
     /**
@@ -215,7 +213,8 @@ abstract class Model
     private static function buildFrom()
     {
         $called = static::class;
-        $table = $called::tableName();
+        $model = new $called;
+        $table = $model->tableName();
 
         return sprintf('SELECT * FROM `%s` WHERE id = :id', $table);
     }
