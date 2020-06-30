@@ -94,6 +94,12 @@ class PhoneForm extends Form
         $phone->last_name = $this->last_name;
 
         if (!empty($_FILES['PhoneForm']['tmp_name']['file'])) {
+            if (!$phone->isNewRecord) {
+                if ($phone->file) {
+                    $phone->deleteFile();
+                }
+            }
+
             $fileName = $this->uploadFile();
             $phone->file = $fileName;
             $phone->makeThumbnails(100, 100);
