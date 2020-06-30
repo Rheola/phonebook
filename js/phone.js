@@ -1,6 +1,5 @@
 'use strict';
-window.onload = function () {
-
+$(function () {
     $('#create').click(function () {
 
         const form = $('#create-form')[0];
@@ -127,9 +126,10 @@ window.onload = function () {
                             $(`#${key}-edit`).val(value);
                         }
                         if (contact.file != '') {
+                            console.log(contact.id);
                             $('#file-prev').attr('src', '/upload/min/' + contact.file);
-                            $('#delete-file').show();
                             $('#delete-file').attr('data-id', contact.id);
+                            $('#delete-file').show();
                         } else {
                             $('#delete-file').hide();
                         }
@@ -213,5 +213,37 @@ window.onload = function () {
         }
     );
 
+    $(document).on('click', '#delete-file', function () {
+            const id = this.getAttribute('data-id');
 
-}
+
+            $.ajax({
+                type: "POST",
+                url: "/phone/deletefile/" + id,
+            })
+                .done(function (rawResponse) {
+                    const response = JSON.parse(rawResponse);
+                    if (response.success) {
+                        $('#file-prev').hide();
+                        $('#delete-file').hide();
+
+
+                        return false;
+                    } else {
+                        const errors = response.errors;
+                        console.error(errors);
+
+                        alert("error");
+                    }
+                })
+                .fail(function (data) {
+                    console.error(data);
+
+                    alert("error");
+                });
+
+            return false;
+        }
+    );
+
+});

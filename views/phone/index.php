@@ -158,7 +158,7 @@
 
                             <img id='file-prev' src="/upload/min/" alt="" class="img-thumbnail">
 
-                            <button type="button" class="btn btn-secondary  btn-danger delete-file" data-id="">
+                            <button type="button" class="btn btn-secondary  btn-danger " data-id="" id="delete-file">
                                 <i class="fas fa-trash"></i>
                             </button>
 
