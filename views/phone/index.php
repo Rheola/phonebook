@@ -62,53 +62,64 @@
     <button class="btn btn-primary" type="submit" id="create">Добавить запись</button>
 </form>
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th scope="col">Фамилия</th>
-        <th scope="col">Имя</th>
-        <th scope="col">Телефон</th>
-        <th scope="col">Email</th>
-        <th scope="col">Фото</th>
-        <th scope="col">Действия</th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php
-
-    foreach ($phones as $phone) {
-        ?>
-        <tr data-id="<?= $phone->id; ?>">
-            <td><?= $phone->first_name; ?></td>
-            <td><?= $phone->last_name; ?></td>
-            <td><?= $phone->phone; ?></td>
-            <td><?= $phone->email; ?></td>
-            <td>
-                <?php
-                if ($phone->file) {
-                    ?>
-                    <img src="/upload/min/<?= $phone->file ?>" alt="" class="img-thumbnail">
-                    <?php
-                }
-                ?>
-            </td>
-            <td>
-                <div class="btn-group" aria-label="Basic example">
-                    <button type="button" class="btn btn-secondary btn-info edit" data-id="<?= $phone->id; ?>"
-                            data-target="#editModal">
-                        <i class="fas fa-pen"></i>
-                    </button>
-                    <button type="button" class="btn btn-secondary  btn-danger delete" data-id="<?= $phone->id; ?>">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            </td>
+<div id="phone-content">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">
+                <a href="#" class="sort-link" sort-attr="last_name" sort-order="ASC">Фамилия</a>
+            </th>
+            <th scope="col">
+                <a href="#" class="sort-link" sort-attr="first_name" sort-order="ASC">Имя</a>
+            </th>
+            <th scope="col">
+                <a href="#" class="sort-link" sort-attr="phone" sort-order="ASC">Телефон</a>
+            </th>
+            <th scope="col">
+                <a href="#" class="sort-link" sort-attr="email" sort-order="ASC">Email</a>
+            </th>
+            <th scope="col">Фото</th>
+            <th scope="col">Действия</th>
         </tr>
+        </thead>
+        <tbody>
         <?php
-    }
-    ?>
-    </tbody>
-</table>
+
+        foreach ($phones as $phone) {
+            ?>
+            <tr data-id="<?= $phone->id; ?>">
+                <td><?= $phone->last_name; ?></td>
+                <td><?= $phone->first_name; ?></td>
+                <td><?= $phone->phone; ?></td>
+                <td><?= $phone->email; ?></td>
+                <td>
+                    <?php
+                    if ($phone->file) {
+                        ?>
+                        <img src="/upload/min/<?= $phone->file ?>" alt="" class="img-thumbnail">
+                        <?php
+                    }
+                    ?>
+                </td>
+                <td>
+                    <div class="btn-group" aria-label="Basic example">
+                        <button type="button" class="btn btn-secondary btn-info edit" data-id="<?= $phone->id; ?>"
+                                data-target="#editModal">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                        <button type="button" class="btn btn-secondary  btn-danger delete" data-id="<?= $phone->id; ?>">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <?php
+        }
+        ?>
+        </tbody>
+    </table>
+
+</div>
 
 
 <!-- Modal -->
@@ -134,19 +145,21 @@
                             <div class="invalid-feedback phone"></div>
                         </div>
 
+                        <div class="col-sm-12  mb-4">
+                            <label for="first_name">Имя</label>
+                            <input type="text" class="form-control" id="first_name-edit" name="PhoneForm[first_name]"
+                                   value="">
+                            <div class="invalid-feedback first_name"></div>
+                        </div>
+
+
                         <div class="col-sm-12 mb-4">
-                            <label for="last_name">Имя</label>
+                            <label for="last_name">Фамилия</label>
                             <input type="text" class="form-control" id="last_name-edit" name="PhoneForm[last_name]"
                                    value="">
                             <div class="invalid-feedback last_name"></div>
                         </div>
 
-                        <div class="col-sm-12  mb-4">
-                            <label for="first_name">Фамилия</label>
-                            <input type="text" class="form-control" id="first_name-edit" name="PhoneForm[first_name]"
-                                   value="">
-                            <div class="invalid-feedback first_name"></div>
-                        </div>
 
                         <div class="col-sm-12  mb-4">
                             <label for="email">Email</label>

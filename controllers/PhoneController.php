@@ -23,7 +23,7 @@ class PhoneController extends Controller
 
         $sql = 'SELECT * FROM phone WHERE 
             user_id=:user_id   
-            ORDER BY id DESC LIMIT 300';
+            ORDER BY id DESC';
 
         $query = $pdo->prepare($sql);
         $query->bindValue('user_id', $user->id, \PDO::PARAM_INT);
@@ -31,6 +31,7 @@ class PhoneController extends Controller
         $query->execute();
 
         $phones = $query->fetchAll(\PDO::FETCH_CLASS, Phone::class);
+
         $this->render('index',
             [
                 'user' => $user,
@@ -239,5 +240,63 @@ class PhoneController extends Controller
             ]
         );
 
+    }
+
+
+    public function actionSort()
+    {
+
+        $attr = $_GET['attr'];
+        $order = $_GET['order'];
+        $user = App::$user;
+
+        $fields = [
+            'email',
+            'first_name',
+            'last_name',
+            'phone',
+        ];
+
+
+        $order = strtoupper($order);
+        if (!in_array($order, ['ASC', 'DESC'])) {
+            $order = 'ASC';
+        }
+        $attr = strtolower($attr);
+        if (!in_array($attr, $fields)) {
+
+            $attr = 'id';
+        }
+
+        $orderStr = sprintf(" ORDER by %s %s", $attr, $order);
+        $pdo = PDOConnection::getInstance()->getConnection();
+
+        $sql = 'SELECT * FROM phone WHERE 
+            user_id=:user_id   
+             ' . $orderStr;
+
+        $query = $pdo->prepare($sql);
+
+
+        $query->bindValue('user_id', $user->id, \PDO::PARAM_INT);
+
+        $query->execute();
+
+        $phones = $query->fetchAll(\PDO::FETCH_CLASS, Phone::class);
+        $this->layout = 'empty';
+        $orderSettings = [];
+        foreach ($fields as $key) {
+            $orderSettings[$key] = 'ASC';
+            if ($key == $attr) {
+                if ($order == 'ASC') {
+                    $orderSettings[$key] = 'DESC';
+                }
+            }
+        }
+        $this->render('sort', [
+            'phones' => $phones,
+            'order' => $orderSettings,
+            'attr' => $attr,
+        ]);
     }
 }

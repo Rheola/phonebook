@@ -24,13 +24,11 @@ $(function () {
                     const phone = response.data;
 
                     let tdFile = `<td></td>`;
-                    console.log(phone.file)
                     if (phone.file != '') {
                         tdFile = `<td>
                                 <img src="/upload/min/${phone.file}" alt="" class="img-thumbnail">
                             </td>`;
                     }
-                    console.log(phone.tdFile);
 
                     $('tbody').prepend(`
                     <tr data-id="${phone.id}">
@@ -93,8 +91,8 @@ $(function () {
                     }
                 })
                 .fail(function (data) {
-                    console.log('error');
-                    console.log(data);
+                    console.error('error');
+                    console.error(data);
 
                     alert("error");
                 });
@@ -107,7 +105,6 @@ $(function () {
 
     $(document).on('click', '.edit', function () {
             const id = this.getAttribute('data-id');
-            console.log(id);
             $.ajax({
                 type: "GET",
                 url: "/phone/view/" + id,
@@ -126,7 +123,6 @@ $(function () {
                             $(`#${key}-edit`).val(value);
                         }
                         if (contact.file != '') {
-                            console.log(contact.id);
                             $('#file-prev').attr('src', '/upload/min/' + contact.file);
                             $('#delete-file').attr('data-id', contact.id);
                             $('#delete-file').show();
@@ -141,8 +137,8 @@ $(function () {
                     }
                 })
                 .fail(function (data) {
-                    console.log('error');
-                    console.log(data);
+                    console.error('error');
+                    console.error(data);
 
                     alert("error");
                 });
@@ -175,11 +171,17 @@ $(function () {
                     const response = JSON.parse(rawResponse);
                     if (response.success) {
                         const phone = response.data;
-
+                        let tdFile = `<td></td>`;
+                        if (phone.file != '') {
+                            tdFile = `<td>
+                                <img src="/upload/min/${phone.file}" alt="" class="img-thumbnail">
+                            </td>`;
+                        }
                         const innerHtml = `<td>${phone.first_name}</td>
                             <td>${phone.last_name}</td>
                             <td>${phone.phone}</td>
                             <td>${phone.email}</td>
+                            ${tdFile}
                             <td>
                                          <div class="btn-group" aria-label="Basic example">
                                             <button type="button" class="btn btn-secondary btn-info edit" data-id="${phone.id}">
@@ -246,4 +248,17 @@ $(function () {
         }
     );
 
+    $(document).on('click', '.sort-link', function (event) {
+
+        $.get({
+            url: "/phone/sort/",
+            data: {
+                attr: this.getAttribute('sort-attr'),
+                order: this.getAttribute('sort-order')
+            },
+            success: response => {
+                $('#phone-content').html(response);
+            }
+        });
+    })
 });
