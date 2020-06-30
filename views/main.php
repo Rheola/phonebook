@@ -51,7 +51,7 @@ use core\App;
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="#">Телефонная книга</a>
+        <a class="navbar-brand" href="/">Телефонная книга</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample07"
                 aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -59,19 +59,12 @@ use core\App;
 
         <div class="collapse navbar-collapse" id="navbarsExample07">
             <?php
-
-            $this->menu = [
-                ['label' => 'Главная', 'url' => '/'],
-            ];
-
-
             if (App::$user->isGuest()) {
                 $this->menu[] = ['label' => 'Вход', 'url' => '/user/login'];
             } else {
                 $this->menu[] = ['label' => 'Справочник', 'url' => '/phone/'];
                 $this->menu[] = ['label' => 'Выход', 'url' => '/user/logout'];
             }
-
             ?>
             <ul class="navbar-nav mr-auto">
 
