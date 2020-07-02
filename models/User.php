@@ -3,7 +3,6 @@
 
 namespace models;
 
-
 use core\PDOConnection;
 
 class User extends Model
@@ -20,15 +19,15 @@ class User extends Model
 
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function isGuest()
     {
-        return $this->guest;
+        return (bool)$this->guest;
     }
 
     /**
-     * @param mixed $guest
+     * @param bool $guest
      */
     public function setGuest($guest)
     {
