@@ -90,8 +90,8 @@ class PhoneForm extends Form
         preg_match_all('/\d+/', $this->phone, $matches);
         $phone->phone = implode('', $matches[0]);
         $phone->email = $this->email;
-        $phone->first_name = $this->first_name;
-        $phone->last_name = $this->last_name;
+        $phone->first_name = strip_tags($this->first_name);
+        $phone->last_name = strip_tags($this->last_name);
 
         if (!empty($_FILES['PhoneForm']['tmp_name']['file'])) {
             if (!$phone->isNewRecord) {
