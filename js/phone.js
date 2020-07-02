@@ -30,15 +30,18 @@ $(function () {
                             </td>`;
                     }
 
-                    $('tbody').prepend(`
+                    $('tbody.main').prepend(`
                     <tr data-id="${phone.id}">
-                             <td>${phone.first_name}</td>
                             <td>${phone.last_name}</td>
+                            <td>${phone.first_name}</td>
                             <td>${phone.phone}</td>
                             <td>${phone.email}</td>
                             ${tdFile}
                             <td>
-                                         <div class="btn-group" aria-label="Basic example">
+                                         <div class="btn-group">
+                                            <button type="button" class="btn btn-secondary btn-success view" data-id="${phone.id}">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
                                             <button type="button" class="btn btn-secondary btn-info edit" data-id="${phone.id}">
                                                 <i class="fas fa-pen"></i>
                                             </button>
@@ -67,7 +70,6 @@ $(function () {
             })
             .fail(function (data) {
                 console.error(data);
-
                 alert("error");
             });
 
@@ -165,7 +167,6 @@ $(function () {
                             if (key == 'file') {
                                 continue;
                             }
-                            console.log(value);
                             $(`#${key}-view`).html(value);
                         }
                         if (contact.file != '') {
