@@ -25,7 +25,7 @@
 
             <label for="inputPassword">Пароль</label>
             <input name="LoginForm[password]" type="password" id="inputPassword" class="form-control"
-                   placeholder="Пароль" required value="<?= $loginForm->password ?>">
+                   placeholder="Пароль" required value="">
 
             <label for="inputCaptcha">Капча </label>
             <input name="LoginForm[captcha]" type="text" id="inputCaptcha"
