@@ -30,7 +30,7 @@ class PDOConnection
      *
      * @var PDOConnection
      */
-    protected static $instance;
+    private static $connection;
 
     /**
      * Hide constructor, protected so only subclasses and self can use
@@ -44,54 +44,47 @@ class PDOConnection
      *
      * @return PDOConnection
      */
-    public static function getInstance()
+    public static function getConnection()
     {
-        if (!isset(self::$instance)) {
-            self::$instance = new PDOConnection();
+        if (!isset(self::$connection)) {
+
+            $conn = null;
+
+            $host = App::getInstance()->params['db']['host'];
+            $db = App::getInstance()->params['db']['dbname'];
+
+            $dsn = sprintf('mysql:host=%s;dbname=%s;charset=UTF8', $host, $db);
+
+            $user = App::getInstance()->params['db']['user'];
+            $password = App::getInstance()->params['db']['password'];
+
+            try {
+                $conn = new PDO($dsn, $user, $password);
+                //Set common attributes
+                $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+                self::$connection = $conn;
+            } catch (PDOException $e) {
+                echo 'Произошла ошибка. Приносим извинения, наши специалисты уже работают над решением проблемы';
+                self::logDbError('PDOException ' . $e->getMessage());
+                exit();
+            } catch (Exception $e) {
+                echo 'Произошла ошибка. Приносим извинения, наши специалисты уже работают над решением проблемы';
+                self::logDbError('Exception');
+                exit();
+            }
+
+//            self::$connection = new PDOConnection();
         }
 
-        return self::$instance;
-    }
-
-    /**
-     * Return a PDO connection using the dsn and credentials provided
-     *
-     * @return PDO connection to the database
-     */
-    public function getConnection()
-    {
-        $conn = null;
-
-        $host = App::getInstance()->params['db']['host'];
-        $db = App::getInstance()->params['db']['dbname'];
-
-        $dsn = sprintf('mysql:host=%s;dbname=%s;charset=UTF8', $host, $db);
-
-        $user = App::getInstance()->params['db']['user'];
-        $password = App::getInstance()->params['db']['password'];
-
-        try {
-            $conn = new PDO($dsn, $user, $password);
-            //Set common attributes
-            $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-
-            return $conn;
-        } catch (PDOException $e) {
-            echo 'Произошла ошибка. Приносим извинения, наши специалисты уже работают над решением проблемы';
-            $this->logDbError('PDOException ' . $e->getMessage());
-            exit();
-        } catch (Exception $e) {
-            echo 'Произошла ошибка. Приносим извинения, наши специалисты уже работают над решением проблемы';
-            $this->logDbError('Exception');
-            exit();
-        }
+        return self::$connection;
     }
 
 
     /**
      * @param $info
      */
-    private function logDbError($info)
+    private static function logDbError($info)
     {
         $data = date('Y-m-d', time());
         $file = sprintf('%s.log', $data);
