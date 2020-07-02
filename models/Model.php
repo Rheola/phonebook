@@ -41,7 +41,7 @@ abstract class Model
 
         $sql = sprintf('SHOW COLUMNS FROM %s', $table);
 
-        $pdo = PDOConnection::getInstance()->getConnection();
+        $pdo = PDOConnection::getConnection();
         $query = $pdo->query($sql);
 
         $data = $query->fetchAll();
@@ -100,7 +100,7 @@ abstract class Model
                 case 'integer':
                 case 'double':
                 case 'string':
-                    $values[] = PDOConnection::getInstance()->getConnection()->quote($value);
+                    $values[] = PDOConnection::getConnection()->quote($value);
                     break;
             }
         }
@@ -112,7 +112,7 @@ abstract class Model
 
         $query = sprintf('INSERT INTO %s (%s) VALUES (%s)', $table, $colStr, $valStr);
 
-        $pdo = PDOConnection::getInstance()->getConnection();
+        $pdo = PDOConnection::getConnection();
         $pdo->exec($query);
 
         $this->id = $pdo->lastInsertId();
@@ -131,7 +131,7 @@ abstract class Model
      */
     public static function findOne($id)
     {
-        $pdo = PDOConnection::getInstance()->getConnection();
+        $pdo = PDOConnection::getConnection() ;
 
         $sql = self::buildFrom();
 
@@ -189,7 +189,7 @@ abstract class Model
                 continue;
             }
 
-            $value = PDOConnection::getInstance()->getConnection()->quote($value);
+            $value = PDOConnection::getConnection()->quote($value);
             $values[] = sprintf('`%s` = %s', $field, $value);
         }
 
@@ -199,7 +199,7 @@ abstract class Model
 
         $query = sprintf('UPDATE `%s`  SET  %s WHERE id=%d', $called::tableName(), $valStr, $this->id);
 
-        $pdo = PDOConnection::getInstance()->getConnection();
+        $pdo = PDOConnection::getConnection() ;
         $pdo->exec($query);
 
         if ($pdo->errorCode() != 0) {
@@ -240,7 +240,7 @@ abstract class Model
         $called = static::class;
         $table = $called::tableName();
 
-        $pdo = PDOConnection::getInstance()->getConnection();
+        $pdo = PDOConnection::getConnection();
 
         $sql = sprintf('DELETE FROM `%s` WHERE id = :id', $table);
 
@@ -274,7 +274,7 @@ abstract class Model
 
         print_r($sql);
 
-        $pdo = PDOConnection::getInstance()->getConnection();
+        $pdo = PDOConnection::getConnection();
         $query = $pdo->prepare($sql);
 
         foreach ($condition as $key => $value) {
