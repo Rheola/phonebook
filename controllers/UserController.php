@@ -27,7 +27,6 @@ class UserController extends Controller
         if (isset($_POST['LoginForm'])) {
             $form->load($_POST['LoginForm']);
 
-
             if ($form->validate() && $form->authenticate()) {
                 $this->redirect('/phone/');
             }
@@ -57,8 +56,8 @@ class UserController extends Controller
             if ($form->validate()) {
                 $user = new User();
                 $user->login = $form->login;
-                $user->email = $form->email;
-                $user->password = md5($user->password);
+                $user->email = mb_strtolower($form->email);
+                $user->password = $form->hashPassword();
 
                 $user->save();
 
