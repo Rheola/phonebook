@@ -56,7 +56,7 @@ class User extends Model
     public static function findByEmail($email)
     {
         $email = mb_strtolower($email);
-        $pdo = PDOConnection::getInstance()->getConnection();
+        $pdo = PDOConnection::getConnection();
 
         $sql = 'SELECT * FROM user WHERE email = :email';
 
