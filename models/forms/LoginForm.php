@@ -2,6 +2,7 @@
 
 namespace models\forms;
 
+use core\App;
 use core\Captcha;
 use core\forms\Form;
 use models\User;
@@ -59,7 +60,7 @@ class LoginForm extends Form
 
     public function authenticate()
     {
-        if (md5($this->password) !== $this->user->password) {
+        if ($this->hashPassword() !== $this->user->password) {
             $this->errors['password'][] = 'Неверный пароль';
 
             return false;
@@ -69,5 +70,10 @@ class LoginForm extends Form
         $_SESSION['user'] = $this->user;
 
         return true;
+    }
+
+    public function hashPassword()
+    {
+        return md5($this->password . App::getInstance()->params['salt']);
     }
 }
