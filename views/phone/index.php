@@ -24,20 +24,20 @@
 
         <div class="col-md-4 mb-4">
             <label for="phone">Телефон</label>
-            <input type="text" class="form-control" id="phone" name="PhoneForm[phone]" value="78002000000">
+            <input type="text" class="form-control" id="phone" name="PhoneForm[phone]" value="">
             <div class="invalid-feedback phone"></div>
         </div>
 
         <div class="col-md-4 mb-4">
-            <label for="last_name">Имя</label>
-            <input type="text" class="form-control" id="last_name" name="PhoneForm[last_name]" value="">
-            <div class="invalid-feedback last_name"></div>
+            <label for="first_name">Имя</label>
+            <input type="text" class="form-control" id="first_name" name="PhoneForm[first_name]" value="">
+            <div class="invalid-feedback first_name"></div>
         </div>
 
         <div class="col-md-4 mb-4">
-            <label for="first_name">Фамилия</label>
-            <input type="text" class="form-control" id="first_name" name="PhoneForm[first_name]" value="">
-            <div class="invalid-feedback first_name"></div>
+            <label for="last_name">Фамилия</label>
+            <input type="text" class="form-control" id="last_name" name="PhoneForm[last_name]" value="">
+            <div class="invalid-feedback last_name"></div>
         </div>
 
 
@@ -82,7 +82,7 @@
             <th scope="col">Действия</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="main">
         <?php
 
         foreach ($phones as $phone) {
