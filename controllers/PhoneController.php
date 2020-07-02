@@ -19,7 +19,7 @@ class PhoneController extends Controller
         $user = App::$user;
 
 
-        $pdo = PDOConnection::getInstance()->getConnection();
+        $pdo = PDOConnection::getConnection() ;
 
         $sql = 'SELECT * FROM phone WHERE 
             user_id=:user_id   
@@ -271,7 +271,7 @@ class PhoneController extends Controller
         }
 
         $orderStr = sprintf(" ORDER by %s %s", $attr, $order);
-        $pdo = PDOConnection::getInstance()->getConnection();
+        $pdo = PDOConnection::getConnection();
 
         $sql = 'SELECT * FROM phone WHERE 
             user_id=:user_id   
