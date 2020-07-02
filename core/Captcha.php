@@ -7,7 +7,7 @@ namespace core;
 class Captcha
 {
 
-    public function getCaptchaCode( )
+    public function getCaptchaCode()
     {
 
         return mt_rand(1000, 9999);
@@ -20,7 +20,6 @@ class Captcha
 
     public function getSession($key)
     {
-        @session_start();
         $value = '';
         if (!empty($key) && !empty($_SESSION[(string)$key])) {
             $value = $_SESSION[(string)$key];
