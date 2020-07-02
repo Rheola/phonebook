@@ -28,7 +28,7 @@ class PDOConnection
     /**
      * singleton instance
      *
-     * @var PDOConnection
+     * @var PDO
      */
     private static $connection;
 
@@ -39,10 +39,9 @@ class PDOConnection
     {
     }
 
+
     /**
-     * Returns singleton instance of PDOConnection
-     *
-     * @return PDOConnection
+     * @return PDO
      */
     public static function getConnection()
     {
@@ -60,7 +59,6 @@ class PDOConnection
 
             try {
                 $conn = new PDO($dsn, $user, $password);
-                //Set common attributes
                 $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
                 self::$connection = $conn;
@@ -73,8 +71,6 @@ class PDOConnection
                 self::logDbError('Exception');
                 exit();
             }
-
-//            self::$connection = new PDOConnection();
         }
 
         return self::$connection;
