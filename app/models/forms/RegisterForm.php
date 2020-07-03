@@ -2,8 +2,10 @@
 
 namespace models\forms;
 
+use core\App;
 use core\Captcha;
 use core\forms\Form;
+use models\User;
 
 class RegisterForm extends Form
 {
@@ -36,6 +38,21 @@ class RegisterForm extends Form
             return false;
         }
 
+        $user = User::findOneByParam(['email' => $this->email]);
+        if ($user) {
+            $this->errors['email'][] = 'Этот email занят';
+
+            return false;
+        }
+
+        $user = User::findOneByParam(['login' => $this->login]);
+
+        if ($user) {
+            $this->errors['login'][] = 'Этот логин занят';
+
+            return false;
+        }
+
         $pattern = '/^[a-zA-Z0-9]*$/';
         preg_match($pattern, $this->login, $matches, PREG_OFFSET_CAPTURE);
 
@@ -52,14 +69,17 @@ class RegisterForm extends Form
             return false;
         }
 
-        $patternPassword = '/^(?=.*\d).(?=.*\w).{4,50}$/';
-        preg_match($patternPassword, $this->password, $matches, PREG_OFFSET_CAPTURE);
-        if (count($matches) === 0) {
-            $this->errors['password'][] = 'Ненадежный пароль';
+        if (!preg_match("#[0-9]+#", $this->password)) {
+            $this->errors['password'][] = 'Пароль должен содержать хотя бы одну цифру.';
+            return false;
+        }
+
+        if (!preg_match("#[a-zA-Z]+#", $this->password)) {
+            $this->errors['password'][] = 'Пароль должен содержать хотя бы одну букву.';
 
             return false;
-
         }
+
         $captcha = new Captcha();
 
         if (!$captcha->validateCaptcha($this->captcha)) {
@@ -70,6 +90,11 @@ class RegisterForm extends Form
         }
 
         return true;
+    }
+
+    public function hashPassword()
+    {
+        return md5($this->password . App::getInstance()->params['salt']);
     }
 
 }

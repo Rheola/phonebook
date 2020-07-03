@@ -6,7 +6,7 @@ services:
     volumes:
       - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf"
       - "./docker/log/nginx:/var/log/nginx/"
-      - "./:/var/www/phonebook"
+      - "./app/:/var/www/phonebook"
     ports:
       - "89:80"
     environment:
@@ -24,7 +24,7 @@ services:
     depends_on:
       - mysqldb
     volumes:
-      - "./:/var/www/phonebook"
+      - "./app/:/var/www/phonebook"
   myadmin:
     image: phpmyadmin/phpmyadmin
     container_name: myadminPB

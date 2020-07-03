@@ -9,7 +9,7 @@ use PDO;
 /**
  * @property integer $id
  */
-abstract class Model
+class Model
 {
 
     public $isNewRecord;
@@ -29,7 +29,10 @@ abstract class Model
     /**
      * @return string
      */
-    abstract public function tableName();
+    public static function tableName()
+    {
+        return 'ddd';
+    }
 
     /**
      *
@@ -37,11 +40,12 @@ abstract class Model
     private function findAttributes()
     {
 
-        $table = $this->tableName();
-
+        $table = static::tableName();
         $sql = sprintf('SHOW COLUMNS FROM %s', $table);
 
+
         $pdo = PDOConnection::getConnection();
+
         $query = $pdo->query($sql);
 
         $data = $query->fetchAll();
@@ -131,7 +135,7 @@ abstract class Model
      */
     public static function findOne($id)
     {
-        $pdo = PDOConnection::getConnection() ;
+        $pdo = PDOConnection::getConnection();
 
         $sql = self::buildFrom();
 
@@ -199,7 +203,7 @@ abstract class Model
 
         $query = sprintf('UPDATE `%s`  SET  %s WHERE id=%d', $called::tableName(), $valStr, $this->id);
 
-        $pdo = PDOConnection::getConnection() ;
+        $pdo = PDOConnection::getConnection();
         $pdo->exec($query);
 
         if ($pdo->errorCode() != 0) {
@@ -212,9 +216,7 @@ abstract class Model
      */
     private static function buildFrom()
     {
-        $called = static::class;
-        $model = new $called;
-        $table = $model->tableName();
+        $table = static::tableName();
 
         return sprintf('SELECT * FROM `%s` WHERE id = :id', $table);
     }
@@ -290,5 +292,46 @@ abstract class Model
 //        }
 //        $object->isNewRecord = false;
         return $object;
+    }
+
+
+    public static function findOneByParam($params)
+    {
+        $pdo = PDOConnection::getConnection();
+
+        $sql = sprintf("SELECT * FROM %s  WHERE ", static::tableName());
+
+
+        $where = [];
+        foreach ($params as $param => $val) {
+            $where[] = "$param =:$param";
+        }
+        $sql .= implode(' and ', $where);
+
+
+        $query = $pdo->prepare($sql);
+        $query->setFetchMode(\PDO::FETCH_OBJ);
+        foreach ($params as $param => $val) {
+            $query->bindValue($param, $val);
+        }
+
+        $query->execute();
+
+        $load = $query->fetchObject(get_called_class());
+
+        if ($load === false) {
+            return null;
+        }
+
+        $model = new static();
+        $model->isNewRecord = false;
+
+        foreach ($model as $name => $val) {
+            if (isset($load->$name)) {
+                $model->$name = $load->$name;
+            }
+        }
+
+        return $model;
     }
 }

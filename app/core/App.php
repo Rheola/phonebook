@@ -9,11 +9,6 @@ class App
 {
 
 
-    public static $error;
-    /**
-     * @var
-     */
-    public static $title;
     /**
      * @var User
      */

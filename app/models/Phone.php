@@ -22,7 +22,7 @@ class Phone extends Model
     /**
      * @inheritDoc
      */
-    public function tableName()
+    public static function tableName()
     {
         return 'phone';
     }
