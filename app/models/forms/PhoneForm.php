@@ -71,7 +71,7 @@ class PhoneForm extends Form
 
             $unique = md5(uniqid(mt_rand(), true));
             $fileName = $unique . '.' . $ext;
-            $filePath = App::getInstance()->getRootPath() . '/upload/' . $fileName;
+            $filePath = App::getInstance()->getRootPath() . '/public/upload/' . $fileName;
             if (!file_exists($filePath)) {
                 break;
             }

@@ -85,7 +85,7 @@ class Phone extends Model
      */
     public function fullFilePath()
     {
-        return App::getInstance()->getRootPath() . 'upload/' . $this->file;
+        return App::getInstance()->getRootPath() . 'public/upload/' . $this->file;
     }
 
     /**
@@ -93,7 +93,7 @@ class Phone extends Model
      */
     public function minFilePath()
     {
-        return App::getInstance()->getRootPath() . 'upload/min/' . $this->file;
+        return App::getInstance()->getRootPath() . 'public/upload/min/' . $this->file;
     }
 
     /**
