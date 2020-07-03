@@ -67,13 +67,13 @@
         <thead>
         <tr>
             <th scope="col">
+                <a href="#" class="sort-link" sort-attr="phone" sort-order="ASC">Телефон</a>
+            </th>
+            <th scope="col">
                 <a href="#" class="sort-link" sort-attr="last_name" sort-order="ASC">Фамилия</a>
             </th>
             <th scope="col">
                 <a href="#" class="sort-link" sort-attr="first_name" sort-order="ASC">Имя</a>
-            </th>
-            <th scope="col">
-                <a href="#" class="sort-link" sort-attr="phone" sort-order="ASC">Телефон</a>
             </th>
             <th scope="col">
                 <a href="#" class="sort-link" sort-attr="email" sort-order="ASC">Email</a>
@@ -88,11 +88,11 @@
         foreach ($phones as $phone) {
             ?>
             <tr data-id="<?= $phone->id; ?>">
-                <td><?= $phone->last_name; ?></td>
-                <td><?= $phone->first_name; ?></td>
                 <td>
                     <?= $phone->formattedPhone(); ?>
                 </td>
+                <td><?= $phone->last_name; ?></td>
+                <td><?= $phone->first_name; ?></td>
                 <td><?= $phone->email; ?></td>
                 <td>
                     <?php
@@ -144,14 +144,14 @@
                 <form class="needs-validation" id="edit-form">
                     <div class="form-row">
 
-                        <div class="col-sm-12  mb-4">
+                        <div class="col-sm-12 mb-4 update">
                             <label for="phone">Телефон</label>
                             <input type="text" class="form-control" id="phone-edit" name="PhoneForm[phone]"
-                                   value="78002000000">
+                                   required>
                             <div class="invalid-feedback phone"></div>
                         </div>
 
-                        <div class="col-sm-12  mb-4">
+                        <div class="col-sm-12 mb-4 update">
                             <label for="first_name">Имя</label>
                             <input type="text" class="form-control" id="first_name-edit" name="PhoneForm[first_name]"
                                    value="">
@@ -159,7 +159,7 @@
                         </div>
 
 
-                        <div class="col-sm-12 mb-4">
+                        <div class="col-sm-12 mb-4 update">
                             <label for="last_name">Фамилия</label>
                             <input type="text" class="form-control" id="last_name-edit" name="PhoneForm[last_name]"
                                    value="">
@@ -167,7 +167,7 @@
                         </div>
 
 
-                        <div class="col-sm-12  mb-4">
+                        <div class="col-sm-12 mb-4 update">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email-edit" name="PhoneForm[email]" value="">
                             <div class="invalid-feedback email"></div>
@@ -239,13 +239,9 @@
                     </tbody>
                 </table>
 
-
                 <div class="col-sm-12 mb-4">
-
-                    <img id='file-view' src="/upload/min/" alt="" class="img-thumbnail">
-
+                    <img id='file-view' src="" alt="" class="img-thumbnail">
                 </div>
-
             </div>
         </div>
     </div>

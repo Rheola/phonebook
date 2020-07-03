@@ -11,30 +11,40 @@
     <thead>
     <tr>
         <th scope="col">
-            <a href="#" class="sort-link" sort-attr="last_name" sort-order="<?= $order['last_name'] ?>">Фамилия</a>
+            <a href="#" class="sort-link" sort-attr="phone" sort-order="<?= $order['phone'] ?>">
+                Телефон
+            </a>
         </th>
         <th scope="col">
-            <a href="#" class="sort-link" sort-attr="first_name" sort-order="<?= $order['first_name'] ?>">Имя</a>
+            <a href="#" class="sort-link" sort-attr="last_name" sort-order="<?= $order['last_name'] ?>">
+                Фамилия
+            </a>
         </th>
         <th scope="col">
-            <a href="#" class="sort-link" sort-attr="phone" sort-order="<?= $order['phone'] ?>">Телефон</a>
+            <a href="#" class="sort-link" sort-attr="first_name" sort-order="<?= $order['first_name'] ?>">
+                Имя
+            </a>
         </th>
         <th scope="col">
-            <a href="#" class="sort-link" sort-attr="email" sort-order="<?= $order['email'] ?>">Email</a>
+            <a href="#" class="sort-link" sort-attr="email" sort-order="<?= $order['email'] ?>">
+                Email
+            </a>
         </th>
         <th scope="col">Фото</th>
         <th scope="col">Действия</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody class="main">
     <?php
 
     foreach ($phones as $phone) {
         ?>
         <tr data-id="<?= $phone->id; ?>">
+            <td>
+                <?= $phone->formattedPhone(); ?>
+            </td>
             <td><?= $phone->last_name; ?></td>
             <td><?= $phone->first_name; ?></td>
-            <td><?= $phone->phone; ?></td>
             <td><?= $phone->email; ?></td>
             <td>
                 <?php
@@ -46,7 +56,11 @@
                 ?>
             </td>
             <td>
-                <div class="btn-group" aria-label="Basic example">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary btn-success view" data-id="<?= $phone->id; ?>"
+                            data-target="#viewModal">
+                        <i class="fas fa-eye"></i>
+                    </button>
                     <button type="button" class="btn btn-secondary btn-info edit" data-id="<?= $phone->id; ?>"
                             data-target="#editModal">
                         <i class="fas fa-pen"></i>
