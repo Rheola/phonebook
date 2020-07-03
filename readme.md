@@ -1,6 +1,6 @@
 How to start
 
-    Copy params_template.php to ../params.php
+    Copy params_template.php to params.php
     
     Change .env variables
     
