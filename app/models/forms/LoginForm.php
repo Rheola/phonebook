@@ -32,7 +32,7 @@ class LoginForm extends Form
         }
 
 
-        $user = User::findByEmail($this->email);
+        $user = User::findOneByParam(['email'=>$this->email]);
         if (!$user) {
             $this->errors['email'][] = 'Пользователь не найден';
 
