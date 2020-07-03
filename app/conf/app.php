@@ -49,7 +49,7 @@ App::$user->setGuest(true);
 
 if (isset($_SESSION['is_auth']) && isset($_SESSION['user'])) {
     $array = (array)$_SESSION['user'];
-    $user = User::findByEmail($array['email']);
+    $user = User::findOneByParam(['email'=>$array['email']]);
     App::$user = $user;
     App::$user->setGuest(false);
 }
