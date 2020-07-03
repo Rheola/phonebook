@@ -33,7 +33,7 @@ class App
     protected function __construct()
     {
 
-        $this->params = require __DIR__ . '/../conf/params.php';
+        $this->params = require __DIR__ . '/../../params.php';
     }
 
 
