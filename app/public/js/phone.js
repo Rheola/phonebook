@@ -50,8 +50,7 @@ $(function () {
     $(document).on('click', '.delete', function () {
             const id = this.getAttribute('data-id');
 
-            $.ajax({
-                type: "POST",
+            $.post({
                 url: "/phone/delete/" + id,
             })
                 .done(function (rawResponse) {
@@ -74,8 +73,7 @@ $(function () {
 
     $(document).on('click', '.edit', function () {
             const id = this.getAttribute('data-id');
-            $.ajax({
-                type: "GET",
+            $.get({
                 url: "/phone/view/" + id,
             })
                 .done(function (rawResponse) {
@@ -119,8 +117,8 @@ $(function () {
 
     $(document).on('click', '.view', function () {
             const id = this.getAttribute('data-id');
-            $.ajax({
-                type: "GET",
+            $.get({
+                // type: "GET",
                 url: "/phone/view/" + id,
             })
                 .done(function (rawResponse) {

@@ -43,7 +43,6 @@ class Model
         $table = static::tableName();
         $sql = sprintf('SHOW COLUMNS FROM %s', $table);
 
-
         $pdo = PDOConnection::getConnection();
 
         $query = $pdo->query($sql);
@@ -125,7 +124,6 @@ class Model
         }
 
         $this->isNewRecord = false;
-
     }
 
 
